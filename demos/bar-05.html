@@ -55,7 +55,10 @@
       return textCfg;
     }
   });
-  chart.interval().position('profession*range');
+  chart.interval().position('profession*range').animate({
+    animation: 'shapesScaleInX',
+    easing: 'bounceOut'
+  });
   chart.render();
 </script>
 </body>

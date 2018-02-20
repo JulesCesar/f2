@@ -187,7 +187,7 @@ class AxisController {
     return cfg;
   }
 
-  _createAxis(coord, scale, verticalScale, dimType, index) {
+  _createAxis(coord, scale, verticalScale, dimType, index = '') {
     const self = this;
     const coordType = coord.type;
     const transposed = coord.transposed;
@@ -215,6 +215,7 @@ class AxisController {
     cfg.type = type;
     cfg.dimType = dimType;
     cfg.verticalScale = verticalScale;
+    cfg.index = index;
     this.axes[key] = cfg;
   }
 
@@ -278,12 +279,12 @@ class AxisController {
           padding[2] += maxHeight + labelOffset;
         }
       }
-
+      chart.set('padding', padding); // changeData 时不变换
       chart._updateLayout(padding);
     }
 
     Util.each(axes, axis => {
-      const { type, grid, verticalScale, ticks, dimType, position } = axis;
+      const { type, grid, verticalScale, ticks, dimType, position, index } = axis;
       let appendCfg;
       if (coord.isPolar) {
         if (type === 'Line') {
@@ -313,9 +314,16 @@ class AxisController {
               y: point.y
             });
           });
-          gridPoints.push(subPoints);
+          gridPoints.push({
+            points: subPoints,
+            _id: 'axis-' + dimType + index + '-grid-' + tick.tickValue
+          });
         });
         axis.gridPoints = gridPoints;
+      }
+      appendCfg._id = 'axis-' + dimType;
+      if (!Util.isNil(index)) {
+        appendCfg._id = 'axis-' + dimType + index;
       }
 
       new Axis[type](Util.mix(axis, appendCfg));

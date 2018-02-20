@@ -63,7 +63,7 @@ Shape.registerShape('schema', 'candle', {
       fill: cfg.color,
       lineWidth: 1
     }, cfg.style);
-    container.addShape('Custom', {
+    return container.addShape('Custom', {
       className: 'candle',
       attrs: style,
       createPath(ctx) {
