@@ -56,8 +56,10 @@
     }
   });
   chart.interval().position('profession*range').animate({
-    animation: 'shapesScaleInX',
-    easing: 'bounceOut'
+    appear: {
+      animation: 'shapesScaleInX',
+      easing: 'bounceOut'
+    }
   });
   chart.render();
 </script>

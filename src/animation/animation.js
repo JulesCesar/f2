@@ -198,7 +198,7 @@ function cache(shapes) {
 function getAnimate(geomType, coord, animationType, animationName) {
   let result;
   if (animationName) {
-    result = Animate.Action[animationType][animationName];
+    result = Animate.Action[animationName];
   } else {
     result = Animate.getAnimation(geomType, coord, animationType);
   }
@@ -355,7 +355,8 @@ module.exports = {
             return shape;
           });
         } else if (GROUP_ANIMATION[type]) { // 默认进行整体动画
-          animate = GROUP_ANIMATION[type](coord);
+          animate = GroupAction[animateCfg.animation] || GROUP_ANIMATION[type](coord);
+
           const yScale = geom.getYScale();
           const zeroY = coord.convertPoint({
             x: 0,
